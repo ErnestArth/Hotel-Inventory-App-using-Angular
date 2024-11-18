@@ -13,4 +13,5 @@ export interface RoomList {
   checkInTime: Date;
   checkoutTime: Date;
   rating: number;
+  // changeDetection: undefined;
 }

@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, DoCheck } from '@angular/core';
 import { Room, RoomList } from './rooms';
 import { CommonModule } from '@angular/common';
 import { RoomListComponent } from './room-list/room-list.component';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-rooms',
   standalone: true,
-  imports: [CommonModule, RoomListComponent],
+  imports: [CommonModule, RoomListComponent, HeaderComponent],
   templateUrl: './rooms.component.html',
   styleUrl: './rooms.component.scss',
 })
-export class RoomsComponent {
+export class RoomsComponent implements DoCheck {
   hotelName = 'Wilson hotel';
   numberOfRooms = 10;
   hideRooms = false;
@@ -22,6 +23,8 @@ export class RoomsComponent {
     availableRooms: 10,
     bookedRooms: 5,
   };
+
+  title = 'Room List';
 
   roomList: RoomList[] = [
     {
@@ -55,13 +58,46 @@ export class RoomsComponent {
       checkoutTime: new Date('08-12-2024'),
       rating: 3.858,
     },
+    {
+      roomNumber: 4,
+      roomType: 'Executive Room',
+      amenities:
+        'Air Conditioner, Free Wi-Fi, Television, Bathroom, Kitchen, Living Room, Meeting Room',
+      price: 2000,
+      photos: 'https://unsplash.com/s/photos/hotel',
+      checkInTime: new Date('08-10-2024'),
+      checkoutTime: new Date('08-12-2024'),
+      rating: 4.78,
+    },
   ];
 
   toggle() {
     this.hideRooms = !this.hideRooms;
+    this.title = 'Rooms List';
   }
 
   selectRoom(room: RoomList) {
     this.selectedRoom = room;
+  }
+
+  addRoom() {
+    const room: RoomList = {
+      roomNumber: 5,
+      roomType: 'Super Executive Room',
+      amenities:
+        'Air Conditioner, Free Wi-Fi, Television, Bathroom, Kitchen, Living Room, Meeting Room, Refrigerator',
+      price: 2500,
+      photos: 'https://unsplash.com/s/photos/hotel',
+      checkInTime: new Date('08-10-2024'),
+      checkoutTime: new Date('08-12-2024'),
+      rating: 4.8,
+    };
+
+    // this.roomList.push(room);
+    this.roomList = [...this.roomList, room];
+  }
+
+  ngDoCheck() {
+    console.log('on changes is called');
   }
 }
